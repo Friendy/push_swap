@@ -6,11 +6,11 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/15 16:16:02 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/21 19:06:02 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pushswap.h"
+#include "push_swap.h"
 
 void	push(t_list **stack_a, t_list **stack_b)
 {

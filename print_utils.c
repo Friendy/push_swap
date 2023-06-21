@@ -6,11 +6,11 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/17 19:44:31 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/21 19:06:25 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pushswap.h"
+#include "push_swap.h"
 
 static void	print_num(t_num *n, int use_ind)
 {
@@ -32,25 +32,3 @@ void	print_list(t_list *name)
 	ft_lstiter(name, print_content);
 	ft_printf("\n");
 }
-
-/* void print_list(t_list *name)
-{
-	t_list *lst;
-	lst = name;
-	if (lst == 0)
-		printf("node %p:", lst);
-	else
-	{
-		while (lst->next != NULL)
-		{
-			printf("node %p:", lst);
-			printf("%i\n", (lst->content->num));
-			lst = lst->next;
-			
-		}
-	printf("node %p:", lst);	
-	printf("%i\n", *(int *)(lst->content));
-	}
-	
-}
- */
