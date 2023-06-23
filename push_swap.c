@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/23 02:03:51 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/23 16:11:16 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ t_list *create_stack(int argc, char *argv[])
 	return (stack);
 }
 
-//sets ops and direction for b, take into account last elements
-void getb_rots(t_list *stack_b, t_ind ind, t_ops *ops)
+//sets ops and returns total ops, take into account last elements
+t_ind getb_rots(t_list *stack_b, t_ind ind, t_ops *ops, t_ind size_a)
 {
 	//checking if b starts with largest
 	t_ind size_b;
@@ -69,6 +69,7 @@ void getb_rots(t_list *stack_b, t_ind ind, t_ops *ops)
 	t_list  *min_node;
 	//t_ops temp_ops;
 	
+	//printf("arots%i\n", ops->a_rots);
 	ops->b_rots = 0;
 	size_b = ft_lstsize(stack_b);
 	b_pos = stack_b;
@@ -114,51 +115,21 @@ void getb_rots(t_list *stack_b, t_ind ind, t_ops *ops)
 			}
 		}
 	}
-	ops->b_rrots = size_b - ops->b_rots;
+	//we calculated b_rots
+	//ops->b_rrots = size_b - ops->b_rots;
+	//now we can set directions and
+	//set_directions(ops, size_a, size_b);
+	return (set_directions(ops, size_a, size_b));
 }
 
 //changes ops and direction for a, ops for a should be initialized
-int total_ops(t_list *stack_b, t_list *node, t_ind size_a, t_ops *ops)
-{
-	t_ind total;
-
-	
-	//int a_rrots;
-	//checking initialization for rotations
-	ops->a_rrots = size_a - ops->a_rots;
-	getb_rots(stack_b, lstgetind(node), ops);
-	if (getmax(ops->a_rots, ops->b_rots) < getmax(ops->a_rrots, ops->b_rrots))
-	{
-		total = getmax(ops->a_rots, ops->b_rots);
-	}
-	else
-	{
-		total = getmax(ops->a_rrots, ops->b_rrots);
-		ops->direction_a = 0;
-		ops->direction_b = 0;
-	}
-	if ((ops->a_rots + ops->b_rrots) < total)
-	{
-		total = ops->a_rots + ops->b_rrots;
-		ops->direction_a = 1;
-		ops->direction_b = 0;
-	}
-	if ((ops->a_rrots + ops->b_rots) < total)
-	{
-		total = ops->a_rrots + ops->b_rots;
-		ops->direction_a = 0;
-		ops->direction_b = 1;
-	} 
-	//total = ops->a_rots + ops->b_rots;
-	return(total);
-}
 
 void struct_cpy(t_ops *src, t_ops *dst)
 {
 	dst->a_rots = src->a_rots;
 	dst->b_rots = src->b_rots;
-	dst->a_rrots = src->a_rrots;
-	dst->b_rrots = src->b_rrots;
+	//dst->a_rrots = src->a_rrots;
+	//dst->b_rrots = src->b_rrots;
 	dst->direction_a = src->direction_a;
 	dst->direction_b = src->direction_b;
 }
@@ -173,18 +144,19 @@ t_ops *getminops(t_list *stack_a, t_list *stack_b)
 	int total;
 	int total_temp;
 	
-	ops = malloc(sizeof(int) * 6);
-	temp = malloc(sizeof(int) * 6);
+	ops = malloc(sizeof(int) * 4);
+	temp = malloc(sizeof(int) * 4);
 	size_a = ft_lstsize(stack_a);
 	
-	ops->direction_a = 1;
-	ops->direction_b = 1;
+	//ops->direction_a = 1;
+	//ops->direction_b = 1;
 	node = stack_a;
 	c = 0;
 	ops->a_rots = c;
-	ops->a_rrots = size_a;
+	//ops->a_rrots = size_a;
 	//printf("size_a%i\n", size_a);
-	total = total_ops(stack_b, node, size_a, ops); //total for the first number in stack a
+	total = getb_rots(stack_b,  lstgetind(node), ops, size_a);//direction is set
+	//total = total_ops(stack_b, node, size_a, ops); //total for the first number in stack a
 	//printf("total1%i\n", total);
 	//exit(0);
 	while (node != NULL && node->next != NULL)
@@ -197,10 +169,13 @@ t_ops *getminops(t_list *stack_a, t_list *stack_b)
 		//getb_rots(stack_b, lstgetind(node), &ops);
 		//sets direction and min ops
 		temp->a_rots = c;//rotations till this node is first
-		temp->a_rrots = size_a - c;
+		//temp->a_rrots = size_a - c;
 		//if (c == 30)
 		//	printf("node%i rrotsa%i \n", lstgetind(node), temp->a_rrots);
-		total_temp = total_ops(stack_b, node, size_a, temp);//total for the next number
+		total_temp = getb_rots(stack_b,  lstgetind(node), temp, size_a);
+		//printf("totaltemp%i\n", total_temp);
+		//printf("totalfor cmpson%i\n", total);
+		//total_temp = total_ops(stack_b, node, size_a, temp);//total for the next number
 		//printf("totalnext%i\n", total_temp);
 		if (total_temp < total)
 		{		
@@ -208,6 +183,7 @@ t_ops *getminops(t_list *stack_a, t_list *stack_b)
 			struct_cpy(temp, ops);
 		}
 	}
+	//printf("totalops%i\n", total);
 	return (ops);
 }
 
@@ -245,11 +221,12 @@ int	main(int argc, char *argv[])
 	while ((stack_a != 0))
 	{
 		ops = getminops(stack_a, stack_b);//get minimum ops considering both stacks
-
+		//print_list(stack_a);
+		//print_list(stack_b);
 		//executing operations
 		move(&stack_a, &stack_b, ops);
 	}
-rot_back(&stack_a, &stack_b);
+	rot_back(&stack_a, &stack_b);
 	//printf("r%i\n", ops->b_rots);
 	//printf("s%i\n", size);
 	//print_list(stack_a);

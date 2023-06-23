@@ -42,8 +42,8 @@ typedef struct s_num {
 typedef struct s_ops {
 	t_ind a_rots;
 	t_ind b_rots;
-	t_ind a_rrots;
-	t_ind b_rrots;
+	//t_ind a_rrots;
+	//t_ind b_rrots;
 	int direction_a;
 	int direction_b;
 }	t_ops;
@@ -96,4 +96,6 @@ void move(t_list **stack_a, t_list **stack_b, t_ops *ops);
 void rot_back(t_list **stack_a, t_list **stack_b);
 void sort_top(t_list **st, t_list **stack_b);
 t_ops *getminops(t_list *stack_a, t_list *stack_b);
+t_ind  set_directions(t_ops *ops, t_ind size_a, t_ind size_b);
+t_ind getb_rots(t_list *stack_b, t_ind ind, t_ops *ops, t_ind size_a);
 #endif
