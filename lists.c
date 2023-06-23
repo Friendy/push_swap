@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/21 19:22:47 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/22 22:48:13 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	dupcheck(t_list **stack)
 t_list *find_min_node(t_list  *stack, t_ops *ops)
 {
 	t_list *node;
-	unsigned int i;
+	t_ind i;
 	
 	node = stack;
 	//printf("b starts with%i\n", lstgetind(node));
@@ -70,4 +70,18 @@ t_list *find_min_node(t_list  *stack, t_ops *ops)
 	//printf("pos%i\n", lstgetind(node->next));
 	ops->b_rots = i;
 	return (node);
+}
+
+int check_order(t_list  *stack)
+{
+	t_list *node;
+	node = stack;
+	while (node != NULL && node->next != NULL && lstgetind(node) < lstgetind(node->next))
+	{
+		node = node->next;
+	}
+	if (node->next == NULL)
+		return (1);
+	else
+		return (0);
 }

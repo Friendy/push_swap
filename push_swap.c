@@ -6,56 +6,30 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/21 22:41:55 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/23 02:03:51 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/* void sort_top(t_list **stack_a, t_list **stack_b, int *count)
+void sort_top(t_list **st, t_list **stack_b)
 {
 	int	size;
-	size = ft_lstsize(*stack_a);
-	
-	if (size >= 2 && lstgetind(*stack_a) == lstgetind((*stack_a)->next) + 1)
-		operation("sa", stack_a, stack_b, count);
-	if (size == 3 && lstgetind(*stack_a) == lstgetind(ft_lstlast(*stack_a)) + 1)
-		operation("ra", stack_a, stack_b, count);
-	if (size == 3 && lstgetind(*stack_a) == lstgetind(ft_lstlast(*stack_a)) - 1)
-		operation("ra", stack_a, stack_b, count);	
-} */
 
-/* void sort_top(t_list **stack_a, t_list **stack_b, int *count)
-{
-	int	size;
-	//int ind3
-	size = ft_lstsize(*stack_a);
-	
-	
-	if (size >= 3 && (stind(*stack_a, 1) == stind(*stack_a, 2) - 2 || stind(*stack_a, 1) == stind(*stack_a, 2) + 2))
-		operation("ra", stack_a, stack_b, count);
-	if (size >= 2 && stind(*stack_a, 1) == stind(*stack_a, 2) + 1)
-		operation("sa", stack_a, stack_b, count);
-	if (size == 3 && stind(*stack_a, 2) == stind(*stack_a, 3) + 2)
-		operation("rra", stack_a, stack_b, count);	
-} */
-
-void sort_top(t_list **stack_a, t_list **stack_b, int *count)
-{
-	int	size;
-	int ind[3];
-	//int ind3
-	size = ft_lstsize(*stack_a);
-	ind[0] = stind(*stack_a, 1);
-	ind[1] = stind(*stack_a, 2);
-	ind[2] = stind(*stack_a, 3);
-	//printf("size%i\n", size);
-	if (size >= 3 && ((ind[0] > ind[2] && ind[1] < ind[2]) || (ind[0] < ind[2] && ind[1] > ind[2])))
-		operation("ra", stack_a, stack_b, count);
-	if (size >= 2 && (ind[0] > ind[1] || (ind[0] < ind[1] && ind[2] < ind[0])))
-		operation("sa", stack_a, stack_b, count);
-	if (size == 3 && ind[1] > ind[2])
-		operation("rra", stack_a, stack_b, count);
+	size = ft_lstsize(*st);
+	if ((st_ind(*st, 1) < st_ind(*st, 2) && st_ind(*st, 2) < st_ind(*st, 3)))
+		exit(0); //!!!
+	if (size >= 3)
+	{
+		if (st_ind(*st, 2) > st_ind(*st, 1))
+			operation("rra", st, stack_b);
+		else if (btwn(st_ind(*st, 2), st_ind(*st, 3), st_ind(*st, 1)))
+			operation("ra", st, stack_b);
+	}	
+	if (st_ind(*st, 1) > st_ind(*st, 2))
+		operation("sa", st, stack_b);
+	if (size >= 3 && st_ind(*st, 2) > st_ind(*st, 3))
+		operation("rra", st, stack_b);
 }
 
 t_list *create_stack(int argc, char *argv[])
@@ -82,15 +56,13 @@ t_list *create_stack(int argc, char *argv[])
 	return (stack);
 }
 
-
-
 //sets ops and direction for b, take into account last elements
-void getb_rots(t_list *stack_b, unsigned int ind, t_ops *ops)
+void getb_rots(t_list *stack_b, t_ind ind, t_ops *ops)
 {
 	//checking if b starts with largest
-	unsigned int size_b;
-	unsigned int min_b;
-	unsigned int max_b;
+	t_ind size_b;
+	t_ind min_b;
+	t_ind max_b;
 	t_list  *b_pos;
 	t_list  *b_prev;
 	t_list  *max_node;
@@ -146,9 +118,9 @@ void getb_rots(t_list *stack_b, unsigned int ind, t_ops *ops)
 }
 
 //changes ops and direction for a, ops for a should be initialized
-int total_ops(t_list *stack_b, t_list *node, unsigned int size_a, t_ops *ops)
+int total_ops(t_list *stack_b, t_list *node, t_ind size_a, t_ops *ops)
 {
-	unsigned int total;
+	t_ind total;
 
 	
 	//int a_rrots;
@@ -184,11 +156,7 @@ int total_ops(t_list *stack_b, t_list *node, unsigned int size_a, t_ops *ops)
 void struct_cpy(t_ops *src, t_ops *dst)
 {
 	dst->a_rots = src->a_rots;
-	
-	//printf("b_rrots %i\n", ops->b_rrots);
 	dst->b_rots = src->b_rots;
-	//printf("checksb_rots %i\n", src->b_rots);
-	//printf("checkdb_rots %i\n", dst->b_rots);
 	dst->a_rrots = src->a_rrots;
 	dst->b_rrots = src->b_rrots;
 	dst->direction_a = src->direction_a;
@@ -198,13 +166,13 @@ void struct_cpy(t_ops *src, t_ops *dst)
 t_ops *getminops(t_list *stack_a, t_list *stack_b)
 {
 	t_list  *node;
-	t_list  *b_pos;
-	unsigned int c;
+	t_ind c;
 	t_ops *ops;
 	t_ops *temp;
-	unsigned int size_a;
+	t_ind size_a;
 	int total;
 	int total_temp;
+	
 	ops = malloc(sizeof(int) * 6);
 	temp = malloc(sizeof(int) * 6);
 	size_a = ft_lstsize(stack_a);
@@ -212,7 +180,6 @@ t_ops *getminops(t_list *stack_a, t_list *stack_b)
 	ops->direction_a = 1;
 	ops->direction_b = 1;
 	node = stack_a;
-	b_pos = stack_b;
 	c = 0;
 	ops->a_rots = c;
 	ops->a_rrots = size_a;
@@ -249,79 +216,40 @@ int	main(int argc, char *argv[])
 	t_list  *stack_a;
 	t_list  *stack_b;
 	t_ops *ops;
-	int count;
-	unsigned int size;
+	t_ind size;
 
-	count = 0;
 	stack_b = NULL;
 	stack_a = create_stack(argc, argv);
 	dupcheck(&stack_a);
 	size = ft_lstsize(stack_a);
-
 	indexate(stack_a);
-/* 	if (size <= 3)
+	
+	if (check_order(stack_a) == 1)
+	//printf("order%i\n", check_order(stack_a));
+		exit(0);
+	if (size <= 3)
 	{
 		//printf("size%i\n", size);
-		sort_top(&stack_a, &stack_b, &count);
-		print_list(stack_a);
-		printf("count%i\n", count);
+		sort_top(&stack_a, &stack_b);
+		//print_list(stack_a);
+		//printf("count%i\n", count);
 			ft_lstclear(&stack_a, free);
 	ft_lstclear(&stack_b, free);
 	return (0);
-	} */
+	}
 		
 	//first division
-	operation("pb", &stack_a, &stack_b, &count);
-	operation("pb", &stack_a, &stack_b, &count);
+	operation("pb", &stack_a, &stack_b);
+	//if (size >= 5)
+		operation("pb", &stack_a, &stack_b);
 	while ((stack_a != 0))
 	{
 		ops = getminops(stack_a, stack_b);//get minimum ops considering both stacks
 
 		//executing operations
-		if (ops->direction_a == 1 && ops->direction_b == 1)
-		{
-			mult("rr", &stack_a, &stack_b, &count, getmin(ops->a_rots, ops->b_rots));
-			if (ops->a_rots > ops->b_rots)
-				mult("ra", &stack_a, &stack_b, &count, diff(ops->a_rots, ops->b_rots));
-			else if (ops->b_rots > ops->a_rots)
-				mult("rb", &stack_a, &stack_b, &count, diff(ops->a_rots, ops->b_rots));
-		}
-		else if (ops->direction_a == 0 && ops->direction_b == 0)
-		{
-			mult("rrr", &stack_a, &stack_b, &count, getmin(ops->a_rrots, ops->b_rrots));
-			if (ops->a_rrots > ops->b_rrots)
-				mult("rra", &stack_a, &stack_b, &count, diff(ops->a_rrots, ops->b_rrots));
-			else if (ops->b_rrots > ops->a_rrots)
-				mult("rrb", &stack_a, &stack_b, &count, diff(ops->a_rrots, ops->b_rrots));
-		}
-		else if (ops->direction_a == 1 && ops->direction_b == 0)
-		{
-			mult("ra", &stack_a, &stack_b, &count, ops->a_rots);
-			mult("rrb", &stack_a, &stack_b, &count, ops->b_rrots);
-		}
-		else if (ops->direction_a == 0 && ops->direction_b == 1)
-		{
-			mult("rra", &stack_a, &stack_b, &count, ops->a_rrots);
-			mult("rb", &stack_a, &stack_b, &count, ops->b_rots);
-		}
-		//print_list(stack_a);
-		//print_list(stack_b);
-		operation("pb", &stack_a, &stack_b, &count);
-		//print_list(stack_a);
-		//print_list(stack_b);
+		move(&stack_a, &stack_b, ops);
 	}
-	//sort_top(&stack_a, &stack_b, &count);
-	//rotate b and push to a
-	
-	//lstgetind(find_min(&stack_b));
-	find_min_node(stack_b, ops);
-	size = ft_lstsize(stack_b);
-	ops->b_rrots = size - ops->b_rots;
-	if (ops->b_rrots < ops->b_rots)
-		mult("rrb", &stack_a, &stack_b, &count, ops->b_rrots - 1);
-	else
-		mult("rb", &stack_a, &stack_b, &count, ops->b_rots + 1);
-	mult("pa", &stack_a, &stack_b, &count, size);
+rot_back(&stack_a, &stack_b);
 	//printf("r%i\n", ops->b_rots);
 	//printf("s%i\n", size);
 	//print_list(stack_a);

@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/21 19:05:05 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/22 22:48:13 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int	getnum(t_num *n)
 	return (n->num);
 }
 
-unsigned int	getind(t_num *n)
+t_ind	getind(t_num *n)
 {
 	return (n->ind);
 }
 
-unsigned int	lstgetind(t_list *lst)
+t_ind	lstgetind(t_list *lst)
 {
 	return (getind(lst->content));
 }
@@ -42,12 +42,12 @@ int	lstgetnum(t_list *node)
 	return (getnum(node->content));
 }
 
-void	setind(t_num *n, unsigned int ind)
+void	setind(t_num *n, t_ind ind)
 {
 	n->ind = ind;
 }
 
-void	contsetind(t_list *node, unsigned int ind)
+void	contsetind(t_list *node, t_ind ind)
 {
 	setind(node->content, ind);
 }
@@ -90,8 +90,8 @@ t_list	*find_limmin(t_list *node, int threshold)
 void	indexate(t_list *stack)
 {
 	t_list			*next;
-	unsigned int	ind;
-	unsigned int	size;
+	t_ind	ind;
+	t_ind	size;
 
 	ind = 0;
 	size = ft_lstsize(stack);
@@ -105,7 +105,7 @@ void	indexate(t_list *stack)
 	}
 }
 
-unsigned int stind(t_list *stack, int ind)
+t_ind st_ind(t_list *stack, int ind)
 {
 	int i;
 	t_list *node;

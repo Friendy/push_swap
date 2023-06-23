@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/21 19:06:02 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/21 22:45:58 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	r_rotate(t_list **stack_a)
 	}
 }
 
-void	operation(char *name, t_list **stack_a, t_list **stack_b, int *count)
+void	operation(char *name, t_list **stack_a, t_list **stack_b)
 {
 	if (name[0] == 'p' && name[1] == 'a')
 		push(stack_a, stack_b);
@@ -108,6 +108,5 @@ void	operation(char *name, t_list **stack_a, t_list **stack_b, int *count)
 		if (name[1] == 'r' && (name[2] == 'b' || name[2] == 'r'))
 			r_rotate(stack_b);
 	}
-	*count = *count + 1;
 	ft_printf("%s\n", name);
 }
