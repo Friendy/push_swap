@@ -6,82 +6,71 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/22 22:48:13 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 12:31:03 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+//creates node with a number
+//creates num structure and uses it as content
 t_list	*create_node(int n)
 {
 	t_num	*num;
 	t_list	*node;
-	
-	num = malloc(2*sizeof(int));
+
+	num = malloc(2 * sizeof(int));
 	num->num = n;
 	node = ft_lstnew(num);
-	return (node);	
-}
-
-/* void del_num(t_num *n)
-{
-	
-} */
-
-void find_dup(t_list *node)
-{
-	t_list *next;
-	int d;
-
-	next = node->next;
-	d = getnum(node->content);
-	while (next != NULL)
-	{
-		contequal(next, d);
-		next = next->next;
-	}
-}
-
-void	dupcheck(t_list **stack)
-{
-	t_list *node;
-
-	node = *stack;
-	while(node->next != NULL)
-	{
-		find_dup(node);
-		node = node->next;
-	}
-}
-
-t_list *find_min_node(t_list  *stack, t_ops *ops)
-{
-	t_list *node;
-	t_ind i;
-	
-	node = stack;
-	//printf("b starts with%i\n", lstgetind(node));
-	i = 0;
-	while (node != NULL && node->next != NULL && lstgetind(node) > lstgetind(node->next))
-	{
-		i++;	
-		node = node->next;	
-	}
-	//printf("pos%i\n", lstgetind(node->next));
-	ops->b_rots = i;
 	return (node);
 }
 
-int check_order(t_list  *stack)
+//returns node from the stack with the smallest index
+t_list	*find_min_node(t_list *stack, t_ops *ops)
 {
-	t_list *node;
-	node = stack;
-	while (node != NULL && node->next != NULL && lstgetind(node) < lstgetind(node->next))
+	t_list	*nd;
+	t_ind	i;
+
+	nd = stack;
+	i = 0;
+	while (nd != NULL && nd->next != NULL && l_ind(nd) > l_ind(nd->next))
 	{
-		node = node->next;
+		i++;
+		nd = nd->next;
 	}
-	if (node->next == NULL)
-		return (1);
-	else
-		return (0);
+	ops->b_rots = i;
+	return (nd);
+}
+
+t_list	*find_max_node(t_list *stack, t_ops *ops)
+{
+	t_list	*nd;
+	t_ind	i;
+
+	nd = stack;
+	i = 0;
+	while (nd != NULL && nd->next != NULL && l_ind(nd) < l_ind(nd->next))
+	{
+		i++;
+		nd = nd->next;
+	}
+	ops->a_rots = i;
+	return (nd);
+}
+
+//returns pointer to penultimate element in the list
+t_list	*lstpenultimate(t_list *lst)
+{
+	if (lst != 0 && lst->next != 0)
+	{
+		while (lst->next->next != 0)
+			lst = lst->next;
+	}
+	return (lst);
+}
+
+//returns index from content
+t_ind	l_ind(t_list *node)
+{
+	return (getind(node->content));
 }

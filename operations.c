@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/21 22:45:58 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 10:57:34 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	push(t_list **stack_a, t_list **stack_b)
 		if (stack_a != NULL && *stack_a != NULL)
 			ft_lstadd_front(stack_a, top);
 		else if (*stack_a == NULL)
-		{	*stack_a = top;
+		{	
+			*stack_a = top;
 			top->next = NULL;
 		}
 		*stack_b = next;
@@ -90,14 +91,14 @@ void	operation(char *name, t_list **stack_a, t_list **stack_b)
 		push(stack_a, stack_b);
 	else if (name[0] == 'p' && name[1] == 'b')
 		push(stack_b, stack_a);
-	else if (name[0] == 's') 
+	else if (name[0] == 's')
 	{
 		if (name[1] == 'a' || name[1] == 's')
 			swap(stack_a);
 		if (name[1] == 'b' || name[1] == 's')
 			swap(stack_b);
 	}
-	else if (name[0] == 'r') 
+	else if (name[0] == 'r')
 	{
 		if (name[1] == 'a' || (name[1] == 'r' && name[2] == '\0'))
 			rotate(stack_a);

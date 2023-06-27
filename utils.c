@@ -6,142 +6,70 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/22 22:48:13 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 12:30:54 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_list	*lstpenultimate(t_list *lst)
-{
-	if (lst != 0 && lst->next != 0)
-	{
-		while (lst->next->next != 0)
-			lst = lst->next;
-	}
-	return (lst);
-}
-
+//gets number from num structure
 int	getnum(t_num *n)
 {
 	return (n->num);
 }
 
-t_ind	getind(t_num *n)
+/* finds a node in the stack with a certain position starting from 1
+and returns its num index*/
+t_ind	st_ind(t_list *stack, int ind)
 {
-	return (n->ind);
-}
+	int		i;
+	t_list	*node;
 
-t_ind	lstgetind(t_list *lst)
-{
-	return (getind(lst->content));
-}
-
-int	lstgetnum(t_list *node)
-{
-	return (getnum(node->content));
-}
-
-void	setind(t_num *n, t_ind ind)
-{
-	n->ind = ind;
-}
-
-void	contsetind(t_list *node, t_ind ind)
-{
-	setind(node->content, ind);
-}
-
-t_list	*find_min(t_list *node)
-{
-	t_list *next;
-	t_list *cand;
-	
-	cand = node;
-	next = node->next;
-	while (next != NULL)
-	{
-		if (gthan(cand, next)) 
-			cand = next;	
-		next = next->next;
-	}
-	return (cand);
-}
-
-t_list	*find_limmin(t_list *node, int threshold)
-{
-	t_list *next;
-	t_list *cand;
-	
-	cand = NULL;
-	next = node;
-	while (next != NULL)
-	{
-		if (lstgetnum(next) > threshold)
-		{
-			if (cand == NULL || gthan(cand, next))
-				cand = next;
-		}
-		next = next->next;
-	}
-	return (cand);
-}
-
-void	indexate(t_list *stack)
-{
-	t_list			*next;
-	t_ind	ind;
-	t_ind	size;
-
-	ind = 0;
-	size = ft_lstsize(stack);
-	next = find_min(stack);
-	setind(next->content, ind);
-	while (ind < size - 1)
-	{
-		next = find_limmin(stack, getnum(next->content));
-		ind++;
-		setind(next->content, ind);
-	}
-}
-
-t_ind st_ind(t_list *stack, int ind)
-{
-	int i;
-	t_list *node;
-	
 	node = stack;
 	i = 1;
 	while (node->next != NULL && i <= ind)
 	{
 		if (i == ind)
-			return (lstgetind(node));
+			return (l_ind(node));
 		node = node->next;
 		i++;
 	}
-	return (lstgetind(node));
+	return (l_ind(node));
 }
 
-int getmin(int a, int b)
+void	struct_cpy(t_ops *src, t_ops *dst)
 {
-	if (a < b)
-		return (a);
-	else
-		return (b);
+	dst->a_rots = src->a_rots;
+	dst->b_rots = src->b_rots;
+	dst->direction_a = src->direction_a;
+	dst->direction_b = src->direction_b;
 }
 
-int getmax(int a, int b)
+//setting directions in strucure
+void	set_directions(t_ops *ops, int dir_a, int dir_b)
 {
-	if (a > b)
-		return (a);
-	else
-		return (b);
+	ops->direction_a = dir_a;
+	ops->direction_b = dir_b;
 }
 
-int diff(int a, int b)
+//sorts 2 or 3 nodes on top of stack a
+void	sort_top(t_list **st, t_list **stack_b)
 {
-	if (a > b)
-		return (a - b);
-	else
-		return (b - a);
+	int	size;
+
+	size = ft_lstsize(*st);
+	if (check_order(*st) == 0)
+	{
+		if (size >= 3)
+		{
+			if (st_ind(*st, 2) > st_ind(*st, 1))
+				operation("rra", st, stack_b);
+			else if (btwn(st_ind(*st, 2), st_ind(*st, 3), st_ind(*st, 1)))
+				operation("ra", st, stack_b);
+		}	
+		if (st_ind(*st, 1) > st_ind(*st, 2))
+			operation("sa", st, stack_b);
+		if (size >= 3 && st_ind(*st, 2) > st_ind(*st, 3))
+			operation("rra", st, stack_b);
+	}
 }

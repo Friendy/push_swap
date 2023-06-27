@@ -1,64 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.h                                         :+:      :+:    :+:   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:44 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/20 19:44:36 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 11:33:37 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSHSWAP_H
-# define PUSHSWAP_H
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
 # include "libft/libft.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
 
-# define INPUTERR 100
-# define SA 1
-# define SB 2
-# define SS 3
-# define PA 4
-# define PB 5
-# define RA 6
-# define RB 7
-# define RR 8
-# define RRA 9
-# define RRB 10
-# define RRR 11
-# define NO_THR 12
-# define THR 13
+# define UP 1
+# define DOWN 0
 
-typedef unsigned int t_ind;
+typedef unsigned int	t_ind;
 
 typedef struct s_num {
-	int 			num;
+	int		num;
 	t_ind	ind;
 }	t_num;
 
 typedef struct s_ops {
-	t_ind a_rots;
-	t_ind b_rots;
-	//t_ind a_rrots;
-	//t_ind b_rrots;
-	int direction_a;
-	int direction_b;
+	t_ind	a_rots;
+	t_ind	b_rots;
+	int		direction_a;
+	int		direction_b;
 }	t_ops;
 
-
-
-/* typedef struct s_run {
-	int smallest1;
-	int smallest2;
-	int largest1;
-	int largest2;
-}	t_run */
 void	print_list(t_list *name);
 void	print_content(void *content);
-//void	print_num(t_num *n);
 void	err_handler(void);
 void	push(t_list **stack_a, t_list **stack_b);
 void	swap(t_list **stack_a);
@@ -69,33 +46,38 @@ void	operation(char *name, t_list **stack_a, t_list **stack_b);
 void	indexate(t_list *stack);
 int		getnum(t_num *n);
 t_ind	getind(t_num *n);
-t_ind	lstgetind(t_list *lst);
+t_ind	l_ind(t_list *lst);
 int		gthan(t_list *node1, t_list *node2);
-void	contequal(t_list *l, int d);
-int		isequal(t_list *node1, t_list *node2);
+void	dupbreak(t_list *l, int d);
 t_list	*find_min(t_list *node);
 t_list	*find_limmin(t_list *node, int threshold);
 int		lstgetnum(t_list *node);
-int		ind_gthan(t_list *node1, t_list *node2);
-t_ind st_ind(t_list *stack, int ind);
+t_ind	st_ind(t_list *stack, int ind);
 void	dupcheck(t_list **stack);
-void find_dup(t_list *node);
+void	find_dup(t_list *node);
 t_list	*create_node(int n);
-int swapcond(t_list *st, t_ind size);
-//int pbcond(t_list *st_a, t_list *st_b, t_ind size);
-int pbcond(t_list *st_a, t_ind size);
-int swbcond(t_list *st, t_ind size);
-void	mult(char *name, t_list **stack_a, t_list **stack_b, int m);
-int getmin(int a, int b);
-int diff(int a, int b);
-int getmax(int a, int b);
-t_list *find_min_node(t_list  *stack, t_ops *ops);
-int btwn(t_ind a, t_ind b, t_ind c);
-int check_order(t_list  *stack);
-void move(t_list **stack_a, t_list **stack_b, t_ops *ops);
-void rot_back(t_list **stack_a, t_list **stack_b);
-void sort_top(t_list **st, t_list **stack_b);
-t_ops *getminops(t_list *stack_a, t_list *stack_b);
-t_ind  set_directions(t_ops *ops, t_ind size_a, t_ind size_b);
-t_ind getb_rots(t_list *stack_b, t_ind ind, t_ops *ops, t_ind size_a);
+void	batch_o(char *name, t_list **stack_a, t_list **stack_b, int m);
+int		getmin(int a, int b);
+int		diff(int a, int b);
+int		getmax(int a, int b);
+t_list	*find_min_node(t_list *stack, t_ops *ops);
+int		btwn(t_ind a, t_ind b, t_ind c);
+int		check_order(t_list *stack);
+void	move(t_list **stack_a, t_list **stack_b, t_ops *ops);
+void	rot_back(t_list **stack_a, t_list **stack_b, t_ind size);
+void	sort_top(t_list **st, t_list **stack_b);
+void	getminops(t_list *stack_a, t_list *stack_b, t_ops *ops, t_ind size_a);
+t_ind	set_ops(t_ops *ops, t_ind size_a, t_ind size_b);
+t_ind	getb_rots(t_list *stack_b, t_ind ind, t_ops *ops, t_ind size_a);
+void	struct_cpy(t_ops *src, t_ops *dst);
+char	**join_arrs(char **arr1, char **arr2);
+void	free_arr(char **arr);
+int		strtoi(char *str, int *err_flag);
+void	set_directions(t_ops *ops, int dir_a, int dir_b);
+char	**argstoarr(int argc, char *argv[]);
+void	set_opsa(t_ops *ops, t_ind size_a);
+t_list	*find_max_node(t_list *stack, t_ops *ops);
+void	get_apos1(t_list *pos, t_ind ind, t_ops *ops);
+void	check_elmnt(char *p, char **arr1, char **arr2, char **arr3);
+void	check_arr(char **arr1, char **arr2, char **arr3);
 #endif
