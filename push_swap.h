@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:44 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/27 14:34:30 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 15:55:23 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ typedef struct s_ops {
 	int		direction_b;
 }	t_ops;
 
-void	print_list(t_list *name);
-void	print_content(void *content);
 void	err_handler(void);
 void	push(t_list **stack_a, t_list **stack_b);
 void	swap(t_list **stack_a);
@@ -49,14 +47,13 @@ int		getnum(t_num *n);
 t_ind	getind(t_num *n);
 t_ind	l_ind(t_list *lst);
 int		gthan(t_list *node1, t_list *node2);
-void	dupbreak(t_list *l, int d);
+void	dupbreak(t_list *l, int d, t_list **stack);
 t_list	*find_min(t_list *node);
 t_list	*find_limmin(t_list *node, int threshold);
-int		lstgetnum(t_list *node);
 t_ind	st_ind(t_list *stack, int ind);
 void	dupcheck(t_list **stack);
-void	find_dup(t_list *node);
-t_list	*create_node(int n);
+void	find_dup(t_list *node, t_list **stack);
+t_list	*create_node(int n, char **nums, t_list **stack);
 void	batch_o(char *name, t_list **stack_a, t_list **stack_b, int m);
 int		getmin(int a, int b);
 int		diff(int a, int b);
@@ -73,7 +70,7 @@ t_ind	getb_rots(t_list *stack_b, t_ind ind, t_ops *ops, t_ind size_a);
 void	struct_cpy(t_ops *src, t_ops *dst);
 char	**join_arrs(char **arr1, char **arr2);
 void	free_arr(char **arr);
-int		strtoi(char *str, int *err_flag);
+int		strtoi(char *str, char **nums, t_list **stack);
 void	set_directions(t_ops *ops, int dir_a, int dir_b);
 char	**argstoarr(int argc, char *argv[]);
 void	set_opsa(t_ops *ops, t_ind size_a);
@@ -81,4 +78,5 @@ t_list	*find_max_node(t_list *stack, t_ops *ops);
 void	get_apos1(t_list *pos, t_ind ind, t_ops *ops);
 void	check_elmnt(char *p, char **arr1, char **arr2, char **arr3);
 void	check_arr(char **arr1, char **arr2, char **arr3);
+void	exit_handler(char **arr, t_list **stack);
 #endif

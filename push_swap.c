@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/27 14:33:09 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 16:01:51 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,19 @@ t_list	*create_stack(int argc, char *argv[])
 	t_list	*elmnt;
 	char	**nums;
 	int		i;
-	int		err_flag;
 
-	err_flag = 0;
 	if (argc < 2)
 		exit(0);
 	nums = argstoarr(argc, argv);
-	stack = create_node(strtoi(nums[0], &err_flag));
+	stack = create_node(strtoi(nums[0], nums, NULL), nums, NULL);
 	i = 1;
 	while (nums[i] != NULL)
 	{
-		elmnt = create_node(strtoi(nums[i], &err_flag));
+		elmnt = create_node(strtoi(nums[i], nums, &stack), nums, &stack);
 		ft_lstadd_back(&stack, elmnt);
 		i++;
 	}
 	free_arr(nums);
-	if (err_flag == 1)
-		err_handler();
 	dupcheck(&stack);
 	indexate(stack);
 	return (stack);

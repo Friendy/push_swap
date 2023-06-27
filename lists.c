@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/27 12:31:03 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 15:50:46 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 //creates node with a number
 //creates num structure and uses it as content
-t_list	*create_node(int n)
+t_list	*create_node(int n, char **nums, t_list **stack)
 {
 	t_num	*num;
 	t_list	*node;
 
 	num = malloc(2 * sizeof(int));
+	if (num == NULL)
+		exit_handler(nums, stack);
 	num->num = n;
 	node = ft_lstnew(num);
 	return (node);

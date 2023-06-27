@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/27 12:14:47 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 15:53:30 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,17 @@ int	isnumber(char *str)
 }
 
 //converts string to integer and checks it		
-int	strtoi(char *str, int *err_flag)
+int	strtoi(char *str, char **nums, t_list **stack)
 {
 	int		n;
 	char	*check_str;
 
 	if (str == NULL)
-	{
-		*err_flag = 1;
-		return (0);
-	}
+		exit_handler(nums, stack);
 	n = ft_atoi(str);
 	check_str = ft_itoa(n);
 	if (!isnumber(str) || ft_strncmp(str, check_str, ft_strlen(str)) != 0)
-		*err_flag = 1;
+		exit_handler(nums, stack);
 	if (check_str != NULL)
 		free(check_str);
 	return (n);

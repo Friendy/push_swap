@@ -6,14 +6,14 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/27 14:34:00 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 15:15:23 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 //checks if a node has a duplicate among next nodes and breaks
-void	find_dup(t_list *node)
+void	find_dup(t_list *node, t_list **stack)
 {
 	t_list	*next;
 	int		d;
@@ -22,7 +22,7 @@ void	find_dup(t_list *node)
 	d = getnum(node->content);
 	while (next != NULL)
 	{
-		dupbreak(next, d);
+		dupbreak(next, d, stack);
 		next = next->next;
 	}
 }
@@ -35,7 +35,7 @@ void	dupcheck(t_list **stack)
 	node = *stack;
 	while (node->next != NULL)
 	{
-		find_dup(node);
+		find_dup(node, stack);
 		node = node->next;
 	}
 }
@@ -61,8 +61,11 @@ int	check_order(t_list **stack, int flag)
 }
 
 //breaks program if there is a duplicate
-void	dupbreak(t_list *l, int d)
+void	dupbreak(t_list *l, int d, t_list **stack)
 {
 	if (getnum(l->content) == d)
+	{
+		ft_lstclear(stack, free);
 		err_handler();
+	}
 }
