@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/27 12:26:18 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 14:34:00 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,21 @@ void	dupcheck(t_list **stack)
 	}
 }
 
-int	check_order(t_list *stack)
+int	check_order(t_list **stack, int flag)
 {
 	t_list	*nd;
 
-	nd = stack;
+	nd = *stack;
 	while (nd != NULL && nd->next != NULL && l_ind(nd) < l_ind(nd->next))
 	{
 		nd = nd->next;
 	}
-	if (nd->next == NULL)
+	if (nd->next == NULL && flag == EXIT)
+	{
+		ft_lstclear(stack, free);
+		exit(0);
+	}	
+	else if (nd->next == NULL && flag != EXIT)
 		return (1);
 	else
 		return (0);

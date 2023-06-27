@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/27 12:30:54 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 13:37:58 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	sort_top(t_list **st, t_list **stack_b)
 	int	size;
 
 	size = ft_lstsize(*st);
-	if (check_order(*st) == 0)
+	if (check_order(st, 0) == 0)
 	{
 		if (size >= 3)
 		{

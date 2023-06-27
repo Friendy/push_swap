@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/27 12:40:09 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 14:33:09 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ ARG=$(jot -r -s " " 100 10000000 99999999)
 echo $ARG;
 ./push_swap $ARG | ./checker $ARG
 ./push_swap $ARG | wc -l */
+//-2147483648
 
 t_list	*create_stack(int argc, char *argv[])
 {
@@ -88,8 +89,8 @@ t_ind	getb_rots(t_list *stack_b, t_ind ind, t_ops *ops, t_ind size_a)
 		min_b = l_ind(min_node);
 		ops->b_rots++;
 		if (ind > l_ind(last_node) && ind < l_ind(min_node->next))
-			get_bpos(min_node->next, ind, ops, min_b);
-		else if (ind < l_ind(min_node->next) && ind > min_b)
+			get_bpos(min_node->next, ind, ops, l_ind(last_node));
+		else if (ind < l_ind(last_node) && ind > min_b)
 		{
 			ops->b_rots = 0;
 			get_bpos(stack_b, ind, ops, min_b);
@@ -142,8 +143,7 @@ int	main(int argc, char *argv[])
 
 	stack_b = NULL;
 	stack_a = create_stack(argc, argv);
-	if (check_order(stack_a) == 1)
-		exit(0);
+	check_order(&stack_a, EXIT);
 	size = ft_lstsize(stack_a);
 	if (size > 3)
 		operation("pb", &stack_a, &stack_b);

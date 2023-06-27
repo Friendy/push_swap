@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:44 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/27 11:33:37 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 14:34:30 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 # define UP 1
 # define DOWN 0
+# define EXIT 2
 
 typedef unsigned int	t_ind;
 
@@ -62,7 +63,7 @@ int		diff(int a, int b);
 int		getmax(int a, int b);
 t_list	*find_min_node(t_list *stack, t_ops *ops);
 int		btwn(t_ind a, t_ind b, t_ind c);
-int		check_order(t_list *stack);
+int		check_order(t_list **stack, int flag);
 void	move(t_list **stack_a, t_list **stack_b, t_ops *ops);
 void	rot_back(t_list **stack_a, t_list **stack_b, t_ind size);
 void	sort_top(t_list **st, t_list **stack_b);
