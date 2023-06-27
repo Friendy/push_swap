@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 22:37:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/27 15:50:05 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 16:19:56 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,14 @@ void	check_arr(char **arr1, char **arr2, char **arr3)
 	{
 		free_arr(arr2);
 		free_arr(arr3);
-		ft_putstr_fd("Error\n", 2);
-		exit(-1);
+		err_handler();
+	}
+	else if (*arr1 == NULL)
+	{
+		free_arr(arr1);
+		free_arr(arr2);
+		free_arr(arr3);
+		err_handler();
 	}
 }
 
