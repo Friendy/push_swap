@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/27 12:15:05 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 16:51:30 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	**join_arrs(char **arr1, char **arr2)
 	size2 = arr_size(arr2);
 	i = 0;
 	arr = malloc(sizeof(char *) * (size1 + size2 + 1));
-	check_arr(arr, arr1, arr2);
+	check_arr(arr, arr1, arr2, 0);
 	while (arr1[i] != NULL)
 	{
 		arr[i] = ft_strdup(arr1[i]);

@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 22:37:48 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/27 16:19:56 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 16:51:59 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@ void	check_elmnt(char *p, char **arr1, char **arr2, char **arr3)
 		free_arr(arr1);
 		free_arr(arr2);
 		free_arr(arr3);
-		ft_putstr_fd("Error\n", 2);
-		exit(-1);
+		err_handler();
 	}
 }
 
-void	check_arr(char **arr1, char **arr2, char **arr3)
+void	check_arr(char **arr1, char **arr2, char **arr3, int flag)
 {
 	if (arr1 == NULL)
 	{
@@ -38,7 +37,7 @@ void	check_arr(char **arr1, char **arr2, char **arr3)
 		free_arr(arr3);
 		err_handler();
 	}
-	else if (*arr1 == NULL)
+	else if (*arr1 == NULL && flag == ALL)
 	{
 		free_arr(arr1);
 		free_arr(arr2);
@@ -65,13 +64,12 @@ char	**argstoarr(int argc, char *argv[])
 	if (argv[1][0] == '\0')
 		err_handler();
 	nums = ft_split(argv[1], ' ');
-	check_arr(nums, NULL, NULL);
+	check_arr(nums, NULL, NULL, ALL);
 	i = 2;
 	while (i <= argc - 1)
 	{
 		next = ft_split(argv[i], ' ');
-		check_arr(next, nums, NULL);
-		check_elmnt(next[0], nums, next, NULL);
+		check_arr(next, nums, NULL, ALL);
 		temp = nums;
 		nums = join_arrs(nums, next);
 		free_arr(temp);

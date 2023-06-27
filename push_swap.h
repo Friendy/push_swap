@@ -6,7 +6,7 @@
 /*   By: mrubina <mrubina@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 20:12:44 by mrubina           #+#    #+#             */
-/*   Updated: 2023/06/27 15:55:23 by mrubina          ###   ########.fr       */
+/*   Updated: 2023/06/27 16:51:00 by mrubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define UP 1
 # define DOWN 0
 # define EXIT 2
+# define ALL 3
 
 typedef unsigned int	t_ind;
 
@@ -77,6 +78,6 @@ void	set_opsa(t_ops *ops, t_ind size_a);
 t_list	*find_max_node(t_list *stack, t_ops *ops);
 void	get_apos1(t_list *pos, t_ind ind, t_ops *ops);
 void	check_elmnt(char *p, char **arr1, char **arr2, char **arr3);
-void	check_arr(char **arr1, char **arr2, char **arr3);
+void	check_arr(char **arr1, char **arr2, char **arr3, int flag);
 void	exit_handler(char **arr, t_list **stack);
 #endif
