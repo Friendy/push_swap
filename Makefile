@@ -1,7 +1,6 @@
 NAME = push_swap
 LIBFT_A = libft/libft.a
-SRCS = push_swap.c err_handler.c operations.c print_utils.c utils.c compare.c lists.c m_operations.c
-#utils.c
+SRCS = push_swap.c err_handler.c operations.c utils.c indexate.c compare.c lists.c batch_ops.c checks.c convs.c stack_a.c arrs.c
 FLAGS = -Werror -Wall -Wextra
 OBJS = $(SRCS:.c=.o)
 
